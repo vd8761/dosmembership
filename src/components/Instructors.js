@@ -1,6 +1,33 @@
 "use client";
+import { useRef, useEffect } from 'react';
 
 export default function Instructors() {
+    const carouselRef = useRef(null);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (carouselRef.current) {
+                // The exact pixel width of one full set of 5 cards (320px card + 30px gap = 350px * 5 = 1750px)
+                const setWidth = 1750;
+                
+                if (carouselRef.current.scrollLeft >= setWidth) {
+                    // Instantly jump back by one full set width to create the infinite rotational illusion
+                    carouselRef.current.style.scrollBehavior = 'auto';
+                    carouselRef.current.scrollLeft -= setWidth;
+                    
+                    // Force DOM reflow so the jump is applied before smooth scrolling again
+                    void carouselRef.current.offsetWidth;
+                    
+                    // Scroll to the next card smoothly
+                    carouselRef.current.scrollBy({ left: 350, behavior: 'smooth' });
+                } else {
+                    carouselRef.current.scrollBy({ left: 350, behavior: 'smooth' });
+                }
+            }
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, []);
     const team = [
         { name: "Mr. Sathya Prakash Sekaran", role: "DIRECTOR - HR", image: "/experts/Sathya_Prakash_Sekaran.png", desc: "Ziffity Solutions" },
         { name: "Mr. Subburaj Thangappalam", role: "AGILE PROJECT MANAGER & PRACTITIONER", image: "/experts/Subbu_Raj.png", desc: "L&T Technology Services" },
@@ -8,6 +35,9 @@ export default function Instructors() {
         { name: "Mr. Karthikeyan Loganathan", role: "PROGRAMMING ANALYST", image: "/experts/Karthikeyan_Loganathan.png", desc: "Cognizant" },
         { name: "Mr. Ashwin G", role: "BUSINESS OPERATIONS LEAD", image: "/experts/Ashwin_G.png", desc: "Wizardlenz XR Studio" }
     ];
+
+    // Create 3 identical sets to ensure we have enough track to rotate infinitely
+    const infiniteTeam = [...team, ...team, ...team];
 
     return (
         <section className="section" style={{ backgroundColor: '#ffffff', position: 'relative' }}>
@@ -38,8 +68,8 @@ export default function Instructors() {
                 </div>
 
                 {/* Horizontal Snap Carousel */}
-                <div className="team-carousel">
-                    {team.map((member, i) => (
+                <div className="team-carousel" ref={carouselRef}>
+                    {infiniteTeam.map((member, i) => (
                         <div key={i} className="carousel-item glass-card" style={{ padding: '35px 25px', borderRadius: '16px', textAlign: 'center', backgroundColor: '#f8fafc', border: '1px solid var(--border-color)', transition: 'all 0.3s ease', display: 'flex', flexDirection: 'column' }}
                             onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.style.borderColor = 'rgba(7, 169, 123, 0.4)'; e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.05)'; }}
                             onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--border-color)'; e.currentTarget.style.boxShadow = 'none'; }}

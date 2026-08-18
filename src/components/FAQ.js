@@ -16,8 +16,8 @@ export default function FAQ() {
       a: "We maintain a strict no-refund policy. Once you enroll in the Fellowship, no refunds will be issued under any circumstances. Please review all program details carefully before joining."
     },
     {
-      q: "How are the GPU credits distributed?",
-      a: "Premium members receive GPU credits distributed across 5 months, sufficient to train and deploy your capstone GenAI projects without incurring personal cloud costs."
+      q: "How do GPU credits work?",
+      a: "Premium members receive GPU credits, sufficient to train and deploy your GenAI projects without incurring personal cloud costs."
     }
   ];
 

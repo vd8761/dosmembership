@@ -55,7 +55,7 @@ export default function TermsPage() {
                     <section>
                         <h2 style={{ fontSize: '1.5rem', marginBottom: '15px' }}>5. Hackathon & Project Participation</h2>
                         <p style={{ lineHeight: '1.7', color: 'var(--text-muted)', marginBottom: '15px' }}>
-                            Any code, products, or projects you build during our 24-hour hackathons remain entirely your intellectual property. However, by participating, you grant DOS Club a non-exclusive, royalty-free license to showcase your project (e.g., screenshots, demos, descriptions) on our website and marketing materials to highlight student success.
+                            Any code, products, or projects you build during our hackathons remain entirely your intellectual property. However, by participating, you grant DOS Club a non-exclusive, royalty-free license to showcase your project (e.g., screenshots, demos, descriptions) on our website and marketing materials to highlight student success.
                         </p>
                     </section>
 
