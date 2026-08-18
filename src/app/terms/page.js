@@ -12,14 +12,14 @@ export default function TermsPage() {
                     <section>
                         <h2 style={{ fontSize: '1.5rem', marginBottom: '15px' }}>1. Introduction & Acceptance of Terms</h2>
                         <p style={{ lineHeight: '1.7', color: 'var(--text-muted)', marginBottom: '15px' }}>
-                            Welcome to DOS Club ("we," "our," "us"). By accessing or using our website, enrolling in our cohorts, or participating in our community, you agree to be bound by these Terms of Service. If you do not agree to all the terms and conditions of this agreement, then you may not access our services. These terms govern your use of the DOS Club membership, curriculum, hackathons, and associated resources.
+                            Welcome to DOS Club ("we," "our," "us"). By accessing or using our website, enrolling in our Fellowships, or participating in our community, you agree to be bound by these Terms of Service. If you do not agree to all the terms and conditions of this agreement, then you may not access our services. These terms govern your use of the DOS Club membership, curriculum, hackathons, and associated resources.
                         </p>
                     </section>
 
                     <section>
                         <h2 style={{ fontSize: '1.5rem', marginBottom: '15px' }}>2. Enrollment, Payments, & No Refund Policy</h2>
                         <p style={{ lineHeight: '1.7', color: 'var(--text-muted)', marginBottom: '15px' }}>
-                            Enrollment into the DOS Club cohort requires full payment of the stated tuition fee via our authorized payment gateways (e.g., Razorpay). You agree to provide current, complete, and accurate purchase and account information for all purchases made via the site.
+                            Enrollment into the DOS Club Fellowship requires full payment of the stated tuition fee via our authorized payment gateways (e.g., Razorpay). You agree to provide current, complete, and accurate purchase and account information for all purchases made via the site.
                         </p>
                         <div style={{ padding: '20px', backgroundColor: '#f8fafc', borderLeft: '4px solid var(--primary)', borderRadius: '0 8px 8px 0', marginTop: '10px' }}>
                             <strong style={{ color: 'var(--text-main)', display: 'block', marginBottom: '10px' }}>Strict No Refund Policy</strong>

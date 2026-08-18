@@ -46,12 +46,12 @@ function CountUp({ end, suffix = '', duration = 2500 }) {
 
 export default function Stats() {
     const statsData = [
-        { num: 1500, suffix: '+', desc: 'Community Members', delay: '0s' },
-        { num: 50, suffix: '+', desc: 'Workshops & Webinars', delay: '0.15s' },
-        { num: 10, suffix: '+', desc: 'Partner Institutions', delay: '0.3s' },
+        { num: 6000, suffix: '+', desc: 'Community Members', delay: '0s' },
+        { num: 27, suffix: ' Weeks', desc: 'Duration', delay: '0.15s' },
+        { num: 50, suffix: '+', desc: 'Workshops & Webinars', delay: '0.3s' },
         { num: 100, suffix: '', desc: 'DOS Club Graduates', delay: '0.45s' },
-        { num: 5, suffix: '', desc: 'International Internships', delay: '0.6s' },
-        { num: 5, suffix: '', desc: 'Domestic Internships', delay: '0.75s' },
+        { num: 10, suffix: '+', desc: 'Partner Institutions', delay: '0.6s' },
+        { num: 41, suffix: '+', desc: 'Domestic & International Internships', delay: '0.75s' },
     ];
 
     return (

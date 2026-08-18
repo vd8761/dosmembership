@@ -23,19 +23,25 @@ export default function Hackathon() {
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '30px' }}>
                     <div style={{ flex: '1 1 250px', maxWidth: '350px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '30px 25px', borderRadius: '16px' }}>
-                        <i className="fa-solid fa-user-tie" style={{ fontSize: '2rem', color: 'var(--primary)', marginBottom: '15px' }}></i>
+                        <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(7, 169, 123, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', boxShadow: '0 0 20px rgba(7, 169, 123, 0.15)', border: '1px solid rgba(7, 169, 123, 0.3)' }}>
+                            <i className="fa-solid fa-chalkboard-user" style={{ fontSize: '1.6rem', color: 'var(--primary)' }}></i>
+                        </div>
                         <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', color: 'white' }}>Expert Mentorship</h3>
                         <p style={{ color: '#94a3b8', fontSize: '0.95rem', lineHeight: '1.6' }}>Build your project with Industry Expert Guidance.</p>
                     </div>
 
                     <div style={{ flex: '1 1 250px', maxWidth: '350px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '30px 25px', borderRadius: '16px' }}>
-                        <i className="fa-solid fa-plane-departure" style={{ fontSize: '2rem', color: 'var(--primary)', marginBottom: '15px' }}></i>
+                        <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(7, 169, 123, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', boxShadow: '0 0 20px rgba(7, 169, 123, 0.15)', border: '1px solid rgba(7, 169, 123, 0.3)' }}>
+                            <i className="fa-solid fa-earth-americas" style={{ fontSize: '1.6rem', color: 'var(--primary)' }}></i>
+                        </div>
                         <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', color: 'white' }}>International Trip</h3>
                         <p style={{ color: '#94a3b8', fontSize: '0.95rem', lineHeight: '1.6' }}>Win the ultimate prize and a fully sponsored International Trip.</p>
                     </div>
 
                     <div style={{ flex: '1 1 250px', maxWidth: '350px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '30px 25px', borderRadius: '16px' }}>
-                        <i className="fa-solid fa-briefcase" style={{ fontSize: '2rem', color: 'var(--primary)', marginBottom: '15px' }}></i>
+                        <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(7, 169, 123, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', boxShadow: '0 0 20px rgba(7, 169, 123, 0.15)', border: '1px solid rgba(7, 169, 123, 0.3)' }}>
+                            <i className="fa-solid fa-handshake" style={{ fontSize: '1.6rem', color: 'var(--primary)' }}></i>
+                        </div>
                         <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', color: 'white' }}>Global Placement</h3>
                         <p style={{ color: '#94a3b8', fontSize: '0.95rem', lineHeight: '1.6' }}>Secure an Overseas Internship with a direct Placement Opportunity.</p>
                     </div>

@@ -22,16 +22,17 @@ export default function Pricing() {
                     <div className="pricing-card">
                         <div className="pricing-header">
                             <h3 className="pricing-title">Standard</h3>
-                            <div className="price">₹32,000<span>/cohort</span></div>
+                            <div className="price">₹32,000<span>/Fellowship</span></div>
                             <div className="gst-note">+ 18% GST (Total: ₹37,760)</div>
                         </div>
 
                         <ul className="pricing-features">
-                            <li><i className="fa-solid fa-check"></i> <span>Complete 6-Month Curriculum</span></li>
+                            <li><i className="fa-solid fa-check"></i> <span>Complete 27 Weeks Curriculum</span></li>
                             <li><i className="fa-solid fa-check"></i> <span>Live Classes & Recordings</span></li>
                             <li><i className="fa-solid fa-check"></i> <span>Access to Private Members Network</span></li>
                             <li><i className="fa-solid fa-check"></i> <span>Project Reviews</span></li>
                             <li><i className="fa-solid fa-check"></i> <span>Standard Certificate</span></li>
+                            <li><i className="fa-solid fa-check"></i> <span>Exclusive DOS Goodies Box</span></li>
                         </ul>
 
                         <button className="btn btn-primary" onClick={() => handleEnrollClick(32000, 'Standard Tier')}>Enroll Now</button>
@@ -42,16 +43,14 @@ export default function Pricing() {
                         <div className="popular-badge">Most Popular</div>
                         <div className="pricing-header">
                             <h3 className="pricing-title">Premium</h3>
-                            <div className="price">₹65,000<span>/cohort</span></div>
+                            <div className="price">₹65,000<span>/Fellowship</span></div>
                             <div className="gst-note">+ 18% GST (Total: ₹76,700)</div>
                         </div>
 
                         <ul className="pricing-features">
                             <li><i className="fa-solid fa-check"></i> <span>Everything in Standard</span></li>
-                            <li><i className="fa-solid fa-check"></i> <span>1-on-1 Mentorship Sessions</span></li>
-                            <li><i className="fa-solid fa-check"></i> <span>GPU Credits for 5 Months</span></li>
-                            <li><i className="fa-solid fa-check"></i> <span>Exclusive DOS Goodies Box</span></li>
-                            <li><i className="fa-solid fa-check"></i> <span>Startup Pitch Opportunity</span></li>
+                            <li><i className="fa-solid fa-check"></i> <span>GPU Credits</span></li>
+                            <li><i className="fa-solid fa-check"></i> <span>International Internship</span></li>
                         </ul>
 
                         <button className="btn btn-primary" onClick={() => handleEnrollClick(65000, 'Premium Tier')}>Enroll Premium</button>

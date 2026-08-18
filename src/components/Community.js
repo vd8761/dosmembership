@@ -11,7 +11,7 @@ export default function Community() {
                     </p>
                 </div>
                 
-                <div className="bento-grid">
+                <div className="community-grid">
                     
                     {/* Wide Bento Card */}
                     <div className="glass-card bento-wide" style={{ padding: '40px', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', background: 'linear-gradient(145deg, rgba(88, 101, 242, 0.1) 0%, #ffffff 100%)' }}>
@@ -21,17 +21,24 @@ export default function Community() {
                     </div>
                     
                     {/* Standard Bento Card */}
+                    <div className="glass-card" style={{ padding: '40px 30px', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'linear-gradient(145deg, rgba(16, 185, 129, 0.1) 0%, #ffffff 100%)' }}>
+                        <i className="fa-solid fa-comments" style={{ fontSize: '2.5rem', color: '#10B981', marginBottom: '20px' }}></i>
+                        <h4 style={{ fontSize: '1.4rem', marginBottom: '10px' }}>Private Forum</h4>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Exclusive access to our dedicated technical forum for deep-dive discussions and persistent knowledge sharing.</p>
+                    </div>
+
+                    {/* Standard Bento Card */}
                     <div className="glass-card" style={{ padding: '40px 30px', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                         <i className="fa-solid fa-code-pull-request" style={{ fontSize: '2.5rem', color: 'var(--primary)', marginBottom: '20px' }}></i>
                         <h4 style={{ fontSize: '1.4rem', marginBottom: '10px' }}>Open Source Contributions</h4>
                         <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Build your GitHub portfolio. Get your PRs reviewed by industry mentors and contribute to live open-source products.</p>
                     </div>
 
-                    {/* Standard Bento Card */}
-                    <div className="glass-card" style={{ padding: '40px 30px', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'linear-gradient(145deg, rgba(245, 158, 11, 0.1) 0%, #ffffff 100%)' }}>
-                        <i className="fa-solid fa-people-group" style={{ fontSize: '2.5rem', color: '#F59E0B', marginBottom: '20px' }}></i>
-                        <h4 style={{ fontSize: '1.4rem', marginBottom: '10px' }}>Exclusive Tech Meetups</h4>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Attend weekly syncs, hackathons, and ask-me-anything (AMA) sessions with senior engineers and open-source maintainers.</p>
+                    {/* Wide Bento Card */}
+                    <div className="glass-card bento-wide" style={{ padding: '40px 30px', borderRadius: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', background: 'linear-gradient(145deg, rgba(245, 158, 11, 0.1) 0%, #ffffff 100%)' }}>
+                        <i className="fa-solid fa-people-group animate-float" style={{ fontSize: '3.5rem', color: '#F59E0B', marginBottom: '20px', textShadow: '0 0 20px rgba(245, 158, 11, 0.5)' }}></i>
+                        <h4 style={{ fontSize: '1.8rem', marginBottom: '10px' }}>Exclusive Tech Meetups</h4>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '1rem', maxWidth: '450px' }}>Attend weekly syncs, hackathons, and ask-me-anything (AMA) sessions with senior engineers and open-source maintainers.</p>
                     </div>
 
                 </div>

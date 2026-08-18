@@ -25,7 +25,7 @@ export default function Home() {
                             </div>
                             <h1>Build Real AI Products.<br /><span>Become Industry Ready.</span></h1>
                             <p style={{ fontSize: '1rem', color: 'var(--text-muted)', marginBottom: '25px', lineHeight: '1.6' }}>
-                                Master Applied GenAI in our 6-month, hands-on cohort. Choose your path: Build and launch your AI startup or secure a high-impact role. Includes 100+ hours of expert training.
+                                Master Applied GenAI in our 27 weeks, hands-on Fellowship. Choose your path: Build and launch your AI startup or secure a high-impact role. Includes 100+ hours of expert training.
                             </p>
                             <a href="#pricing" className="btn btn-primary" style={{ fontSize: '0.95rem', padding: '12px 24px', borderRadius: '8px' }}>Claim Your Spot</a>
                         </div>
@@ -65,8 +65,8 @@ export default function Home() {
                         <div className="feature-card">
                             <div className="feature-icon"><i className="fa-solid fa-calendar-week"></i></div>
                             <div>
-                                <h3 style={{ fontWeight: '700' }}>24 Weeks Cohort</h3>
-                                <p style={{ color: 'var(--text-muted)' }}>Intensive 6-month program designed to take you from basics to advanced AI implementations.</p>
+                                <h3 style={{ fontWeight: '700' }}>27 weeks Fellowship</h3>
+                                <p style={{ color: 'var(--text-muted)' }}>Intensive 27 weeks program designed to take you from basics to advanced AI implementations.</p>
                             </div>
                         </div>
 
@@ -95,9 +95,9 @@ export default function Home() {
                         </div>
 
                         <div className="feature-card">
-                            <div className="feature-icon"><i className="fa-solid fa-users"></i></div>
+                            <div className="feature-icon"><i className="fa-brands fa-discord"></i></div>
                             <div>
-                                <h3 style={{ fontWeight: '700' }}>Private Members Network</h3>
+                                <h3 style={{ fontWeight: '700' }}>Private Discord Network</h3>
                                 <p style={{ color: 'var(--text-muted)' }}>Join an elite developer community of builders, founders, and AI enthusiasts.</p>
                             </div>
                         </div>
@@ -130,7 +130,7 @@ export default function Home() {
                             <div className="feature-icon" style={{ backgroundColor: 'var(--primary)', color: 'white' }}><i className="fa-solid fa-gift"></i></div>
                             <div>
                                 <h3 style={{ fontSize: '1.4rem', fontWeight: '800' }}>Goodies & GPU Credits</h3>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>Exclusive DOS merch shipped worldwide and GPU credits for 5 months to power your intensive AI models.</p>
+                                <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>Exclusive DOS merch shipped worldwide and GPU credits to power your intensive AI models.</p>
                             </div>
                         </div>
                     </div>

@@ -6,7 +6,7 @@ export default function TargetAudience() {
             <div className="container">
                 <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                     <h2 className="section-title" style={{ marginBottom: '15px' }}>Is This For You?</h2>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>Our cohort is designed for driven builders.</p>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>Our Fellowship is designed for driven builders.</p>
                 </div>
                 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>

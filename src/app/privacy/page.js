@@ -11,7 +11,7 @@ export default function PrivacyPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
                     <section>
                         <h2 style={{ fontSize: '1.5rem', marginBottom: '15px' }}>1. Information We Collect</h2>
-                        <p style={{ lineHeight: '1.7', color: 'var(--text-muted)' }}>We collect information you provide directly to us when you register for the cohort, including your name, email address, phone number, and payment information (processed securely via Razorpay).</p>
+                        <p style={{ lineHeight: '1.7', color: 'var(--text-muted)' }}>We collect information you provide directly to us when you register for the Fellowship, including your name, email address, phone number, and payment information (processed securely via Razorpay).</p>
                     </section>
 
                     <section>

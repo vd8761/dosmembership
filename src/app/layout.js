@@ -4,12 +4,12 @@ import Footer from '../components/Footer';
 
 export const metadata = {
   title: "DOS CLUB | Edition 3 - 2026",
-  description: "Master Applied GenAI in our 6-month, hands-on cohort. Build production-grade agents, automate workflows, and join a premier community of AI developers.",
-  keywords: ["AI Masterclass", "Generative AI", "Descience Open Source Club", "DOS Club", "Tech Cohort", "AI Developers", "Next.js"],
+  description: "Master Applied GenAI in our 27 weeks, hands-on Fellowship. Build production-grade agents, automate workflows, and join a premier community of AI developers.",
+  keywords: ["AI Masterclass", "Generative AI", "Descience Open Source Club", "DOS Club", "Tech Fellowship", "AI Developers", "Next.js"],
   authors: [{ name: "Descience Open Source Club" }],
   openGraph: {
     title: "DOS CLUB | Edition 3 - 2026",
-    description: "Master Applied GenAI in our 6-month, hands-on cohort. Build production-grade AI agents.",
+    description: "Master Applied GenAI in our 27 weeks, hands-on Fellowship. Build production-grade AI agents.",
     url: "https://dosopensourcefriday.vercel.app",
     siteName: "DOS Club",
     images: [
@@ -26,7 +26,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "DOS CLUB | Edition 3 - 2026",
-    description: "Join the premier 6-month AI cohort. Master Generative AI and build real-world applications.",
+    description: "Join the premier 27 weeks AI Fellowship. Master Generative AI and build real-world applications.",
     images: ["/favicon.png"],
   },
   robots: {

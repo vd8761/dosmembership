@@ -16,7 +16,7 @@ export default function Testimonials() {
                         
                         <div style={{ position: 'relative', zIndex: 1, marginTop: '20px' }}>
                             <p style={{ color: 'var(--text-main)', fontStyle: 'italic', lineHeight: '1.8', fontSize: '1.1rem', marginBottom: '30px', position: 'relative', zIndex: 2 }}>
-                                &quot;Before this cohort, I was only integrating basic APIs. Now, I&apos;ve built a custom RAG pipeline for my company that reduced support tickets by 40%. The hands-on curriculum is unmatched.&quot;
+                                &quot;Before this Fellowship, I was only integrating basic APIs. Now, I&apos;ve built a custom RAG pipeline for my company that reduced support tickets by 40%. The hands-on curriculum is unmatched.&quot;
                             </p>
                             
                             <div style={{ display: 'flex', gap: '20px', alignItems: 'center', borderTop: '1px solid var(--border-color)', paddingTop: '20px' }}>

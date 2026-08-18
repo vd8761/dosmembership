@@ -95,7 +95,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
             "description": "Payment for " + selectedTier.name + " - AI Masterclass",
             "image": "https://osf.descienceosclub.com/favicon.png",
             "handler": function (response){
-                alert("Payment Successful!\\nPayment ID: " + response.razorpay_payment_id + "\\n\\nWelcome to the cohort!");
+                alert("Payment Successful!\\nPayment ID: " + response.razorpay_payment_id + "\\n\\nWelcome to the Fellowship!");
                 onClose();
             },
             "prefill": {
@@ -126,7 +126,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
                     fontSize: '1.8rem', 
                     marginBottom: '10px', 
                     fontFamily: 'var(--font-heading)'
-                }}>Join the Cohort</h3>
+                }}>Join the Fellowship</h3>
                 <p style={{ color: 'var(--text-muted)', marginBottom: '30px', fontSize: '0.95rem', lineHeight: '1.5' }}>
                     You are enrolling in the <strong style={{ color: 'var(--primary)' }}>{selectedTier.name}</strong>. Please fill out your details to proceed to secure checkout.
                 </p>

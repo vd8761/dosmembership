@@ -6,7 +6,7 @@ export default function ContactPage() {
             <div className="container" style={{ maxWidth: '900px', backgroundColor: 'white', padding: '60px', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
                 <a href="/" style={{ color: 'var(--primary)', fontWeight: '600', marginBottom: '30px', display: 'inline-block' }}>&larr; Back to Home</a>
                 <h1 style={{ fontSize: '2.5rem', marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>Contact Us</h1>
-                <p style={{ color: 'var(--text-muted)', marginBottom: '40px', fontSize: '1.1rem' }}>Have questions about the upcoming cohort? Reach out to our team.</p>
+                <p style={{ color: 'var(--text-muted)', marginBottom: '40px', fontSize: '1.1rem' }}>Have questions about the upcoming Fellowship? Reach out to our team.</p>
                 
                 <div style={{ display: 'grid', gap: '30px', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}>
                     <div className="glass-card" style={{ padding: '30px', borderRadius: '12px', border: '1px solid var(--border-color)', backgroundColor: '#f8fafc', textAlign: 'center' }}>

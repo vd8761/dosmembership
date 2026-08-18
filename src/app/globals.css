@@ -895,3 +895,22 @@ input.input-error:focus,
   .bento-wide { grid-column: span 2; }
   .bento-tall { grid-row: span 2; }
 }
+
+/* Custom Grid for the Community Section Zig-Zag */
+.community-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .community-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .community-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

@@ -9,11 +9,11 @@ export default function FAQ() {
     },
     {
       q: "Will the sessions be recorded?",
-      a: "Yes, all live sessions and workshops are recorded and will be available to you on the learning portal for up to 2 years after the cohort ends."
+      a: "Yes, all live sessions and workshops are recorded and will be available to you on the learning portal for up to 2 years after the Fellowship ends."
     },
     {
       q: "What is the refund policy?",
-      a: "We maintain a strict no-refund policy. Once you enroll in the cohort, no refunds will be issued under any circumstances. Please review all program details carefully before joining."
+      a: "We maintain a strict no-refund policy. Once you enroll in the Fellowship, no refunds will be issued under any circumstances. Please review all program details carefully before joining."
     },
     {
       q: "How are the GPU credits distributed?",
