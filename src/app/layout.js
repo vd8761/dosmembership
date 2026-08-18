@@ -3,8 +3,36 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 export const metadata = {
-  title: "Descience Open Source Club | AI Masterclass",
-  description: "Master Applied GenAI in our 6-month, hands-on cohort.",
+  title: "DOS CLUB | Edition 3 - 2026",
+  description: "Master Applied GenAI in our 6-month, hands-on cohort. Build production-grade agents, automate workflows, and join a premier community of AI developers.",
+  keywords: ["AI Masterclass", "Generative AI", "Descience Open Source Club", "DOS Club", "Tech Cohort", "AI Developers", "Next.js"],
+  authors: [{ name: "Descience Open Source Club" }],
+  openGraph: {
+    title: "DOS CLUB | Edition 3 - 2026",
+    description: "Master Applied GenAI in our 6-month, hands-on cohort. Build production-grade AI agents.",
+    url: "https://dosopensourcefriday.vercel.app",
+    siteName: "DOS Club",
+    images: [
+      {
+        url: "/favicon.png",
+        width: 800,
+        height: 600,
+        alt: "DOS Club Edition 3",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DOS CLUB | Edition 3 - 2026",
+    description: "Join the premier 6-month AI cohort. Master Generative AI and build real-world applications.",
+    images: ["/favicon.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  }
 };
 
 export default function RootLayout({ children }) {
