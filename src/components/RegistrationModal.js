@@ -40,7 +40,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
     const baseAmount = selectedTier.amount;
     const gstRate = 0.18;
     const totalAmount = baseAmount + (baseAmount * gstRate);
-    const amountInPaise = totalAmount * 100;
+    const amountInPaise = Math.round(totalAmount * 100);
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -87,35 +87,81 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
           return;
         }
 
-        var options = {
-            "key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, 
-            "amount": amountInPaise, 
-            "currency": "INR",
-            "name": "Descience Open Source Club",
-            "description": "Payment for " + selectedTier.name + " - AI Masterclass",
-            "image": "https://osf.descienceosclub.com/favicon.png",
-            "handler": function (response){
-                alert("Payment Successful!\\nPayment ID: " + response.razorpay_payment_id + "\\n\\nWelcome to the Fellowship!");
-                onClose();
-            },
-            "prefill": {
-                "name": formData.name,
-                "email": formData.email,
-                "contact": formData.phone
-            },
-            "theme": {
-                "color": "#07a97b"
+        try {
+            // Create order on the backend
+            const orderResponse = await fetch('/api/create-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount: amountInPaise })
+            });
+
+            const orderData = await orderResponse.json();
+
+            if (!orderResponse.ok) {
+                console.error("Order creation failed:", orderData);
+                alert("Failed to initialize payment: " + (orderData.error || "Unknown error"));
+                return;
             }
-        };
-        
-        var rzp1 = new window.Razorpay(options);
-        
-        rzp1.on('payment.failed', function (response){
-            console.error(response.error);
-            alert("Payment Failed.\\nReason: " + response.error.description);
-        });
-        
-        rzp1.open();
+
+            var options = {
+                "key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, 
+                "amount": amountInPaise, 
+                "currency": "INR",
+                "name": "Descience Open Source Club",
+                "description": "Payment for " + selectedTier.name + " - AI Masterclass",
+                "image": "https://osf.descienceosclub.com/favicon.png",
+                "order_id": orderData.id,
+                "handler": async function (response){
+                    try {
+                        const saveResponse = await fetch('/api/save-enrollment', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                name: formData.name,
+                                email: formData.email,
+                                phone: formData.phone,
+                                linkedin: formData.linkedin,
+                                tier: selectedTier.name,
+                                amount: amountInPaise,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_order_id: response.razorpay_order_id
+                            })
+                        });
+                        
+                        if (!saveResponse.ok) {
+                            console.error("Failed to save enrollment:", await saveResponse.text());
+                            alert("Payment Successful!\\nHowever, there was an issue saving your enrollment details. Please contact support with Payment ID: " + response.razorpay_payment_id);
+                        } else {
+                            alert("Payment Successful!\\nPayment ID: " + response.razorpay_payment_id + "\\nOrder ID: " + response.razorpay_order_id + "\\n\\nWelcome to the Fellowship!");
+                        }
+                    } catch (err) {
+                        console.error("Error saving enrollment:", err);
+                        alert("Payment Successful!\\nBut failed to save details to database. Payment ID: " + response.razorpay_payment_id);
+                    }
+                    onClose();
+                },
+                "prefill": {
+                    "name": formData.name,
+                    "email": formData.email,
+                    "contact": formData.phone
+                },
+                "theme": {
+                    "color": "#07a97b"
+                }
+            };
+            
+            var rzp1 = new window.Razorpay(options);
+            
+            rzp1.on('payment.failed', function (response){
+                console.error(response.error);
+                alert("Payment Failed.\\nReason: " + response.error.description);
+            });
+            
+            rzp1.open();
+        } catch (error) {
+            console.error("Error during payment initialization:", error);
+            alert("Error connecting to payment gateway.");
+        }
     };
 
     return (

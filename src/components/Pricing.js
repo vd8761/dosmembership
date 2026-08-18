@@ -2,6 +2,10 @@
 import { useState } from 'react';
 import RegistrationModal from './RegistrationModal';
 
+const STANDARD_PRICE = 32000;
+const PREMIUM_PRICE = 65000;
+const GST_RATE = 0.18;
+
 export default function Pricing() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTier, setSelectedTier] = useState(null);
@@ -22,8 +26,8 @@ export default function Pricing() {
                     <div className="pricing-card">
                         <div className="pricing-header">
                             <h3 className="pricing-title">Standard</h3>
-                            <div className="price">₹32,000<span>/Fellowship</span></div>
-                            <div className="gst-note">+ 18% GST (Total: ₹37,760)</div>
+                            <div className="price">₹{STANDARD_PRICE.toLocaleString('en-IN')}<span>/Fellowship</span></div>
+                            <div className="gst-note">+ {(GST_RATE * 100)}% GST (Total: ₹{(STANDARD_PRICE + (STANDARD_PRICE * GST_RATE)).toLocaleString('en-IN')})</div>
                         </div>
 
                         <ul className="pricing-features">
@@ -35,7 +39,7 @@ export default function Pricing() {
                             <li><i className="fa-solid fa-check"></i> <span>Exclusive DOS Goodies Box</span></li>
                         </ul>
 
-                        <button className="btn btn-primary" onClick={() => handleEnrollClick(32000, 'Standard Tier')}>Enroll Now</button>
+                        <button className="btn btn-primary" onClick={() => handleEnrollClick(STANDARD_PRICE, 'Standard Tier')}>Enroll Now</button>
                     </div>
 
                     {/* Premium Tier */}
@@ -43,8 +47,8 @@ export default function Pricing() {
                         <div className="popular-badge">Most Popular</div>
                         <div className="pricing-header">
                             <h3 className="pricing-title">Premium</h3>
-                            <div className="price">₹65,000<span>/Fellowship</span></div>
-                            <div className="gst-note">+ 18% GST (Total: ₹76,700)</div>
+                            <div className="price">₹{PREMIUM_PRICE.toLocaleString('en-IN')}<span>/Fellowship</span></div>
+                            <div className="gst-note">+ {(GST_RATE * 100)}% GST (Total: ₹{(PREMIUM_PRICE + (PREMIUM_PRICE * GST_RATE)).toLocaleString('en-IN')})</div>
                         </div>
 
                         <ul className="pricing-features">
@@ -53,7 +57,7 @@ export default function Pricing() {
                             <li><i className="fa-solid fa-check"></i> <span>International Internship</span></li>
                         </ul>
 
-                        <button className="btn btn-primary" onClick={() => handleEnrollClick(65000, 'Premium Tier')}>Enroll Premium</button>
+                        <button className="btn btn-primary" onClick={() => handleEnrollClick(PREMIUM_PRICE, 'Premium Tier')}>Enroll Premium</button>
                     </div>
 
                 </div>
