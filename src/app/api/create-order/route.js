@@ -26,6 +26,7 @@ export async function POST(req) {
         return NextResponse.json(order);
     } catch (error) {
         console.error('Error creating Razorpay order:', error);
-        return NextResponse.json({ error: 'Error creating order' }, { status: 500 });
+        const errorMsg = error?.error?.description || error.message || 'Unknown error';
+        return NextResponse.json({ error: `Error creating order: ${errorMsg}` }, { status: 500 });
     }
 }

@@ -22,10 +22,14 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
     const [formData, setFormData] = useState({ name: '', email: '', phone: '', linkedin: '' });
     const [errors, setErrors] = useState({});
     const [country, setCountry] = useState('IN');
+    const [paymentStatus, setPaymentStatus] = useState('idle');
+    const [paymentDetails, setPaymentDetails] = useState(null);
 
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
+            setPaymentStatus('idle');
+            setPaymentDetails(null);
         } else {
             document.body.style.overflow = '';
         }
@@ -66,8 +70,9 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
             }
         }
         
-        if (!formData.linkedin.trim()) newErrors.linkedin = "Please fill out this field.";
-        else if (!/^https?:\/\//.test(formData.linkedin)) newErrors.linkedin = "Please enter a valid URL.";
+        if (formData.linkedin.trim() && !/^https?:\/\//.test(formData.linkedin)) {
+            newErrors.linkedin = "Please enter a valid URL.";
+        }
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
@@ -113,6 +118,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
                 "order_id": orderData.id,
                 "handler": async function (response){
                     try {
+                        setPaymentStatus('verifying');
                         const saveResponse = await fetch('/api/save-enrollment', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -124,21 +130,42 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
                                 tier: selectedTier.name,
                                 amount: amountInPaise,
                                 razorpay_payment_id: response.razorpay_payment_id,
-                                razorpay_order_id: response.razorpay_order_id
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_signature: response.razorpay_signature
                             })
                         });
                         
                         if (!saveResponse.ok) {
-                            console.error("Failed to save enrollment:", await saveResponse.text());
-                            alert("Payment Successful!\\nHowever, there was an issue saving your enrollment details. Please contact support with Payment ID: " + response.razorpay_payment_id);
+                            const errorText = await saveResponse.text();
+                            console.error("Failed to save enrollment:", errorText);
+                            let errorMessage = "Payment Successful, but there was an issue saving your enrollment details.";
+                            try {
+                                const errObj = JSON.parse(errorText);
+                                if (errObj.error) errorMessage = errObj.error;
+                            } catch (e) {}
+                            
+                            setPaymentStatus('error');
+                            setPaymentDetails({
+                                message: errorMessage,
+                                paymentId: response.razorpay_payment_id,
+                                orderId: response.razorpay_order_id
+                            });
                         } else {
-                            alert("Payment Successful!\\nPayment ID: " + response.razorpay_payment_id + "\\nOrder ID: " + response.razorpay_order_id + "\\n\\nWelcome to the Fellowship!");
+                            setPaymentStatus('success');
+                            setPaymentDetails({
+                                paymentId: response.razorpay_payment_id,
+                                orderId: response.razorpay_order_id
+                            });
                         }
                     } catch (err) {
                         console.error("Error saving enrollment:", err);
-                        alert("Payment Successful!\\nBut failed to save details to database. Payment ID: " + response.razorpay_payment_id);
+                        setPaymentStatus('error');
+                        setPaymentDetails({
+                            message: "Payment Successful, but failed to save details to database. Please contact support.",
+                            paymentId: response.razorpay_payment_id,
+                            orderId: response.razorpay_order_id
+                        });
                     }
-                    onClose();
                 },
                 "prefill": {
                     "name": formData.name,
@@ -154,7 +181,10 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
             
             rzp1.on('payment.failed', function (response){
                 console.error(response.error);
-                alert("Payment Failed.\\nReason: " + response.error.description);
+                setPaymentStatus('failed');
+                setPaymentDetails({
+                    errorDescription: response.error.description
+                });
             });
             
             rzp1.open();
@@ -168,28 +198,31 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
         <div className="modal-overlay">
             <div className="modal-content">
                 <button className="modal-close" onClick={onClose}><i className="fa-solid fa-xmark"></i></button>
-                <h3 className="text-gradient" style={{ 
-                    fontSize: '1.8rem', 
-                    marginBottom: '10px', 
-                    fontFamily: 'var(--font-heading)'
-                }}>Join the Fellowship</h3>
-                <p style={{ color: 'var(--text-muted)', marginBottom: '30px', fontSize: '0.95rem', lineHeight: '1.5' }}>
-                    You are enrolling in the <strong style={{ color: 'var(--primary)' }}>{selectedTier.name}</strong>. Please fill out your details to proceed to secure checkout.
-                </p>
+                
+                {paymentStatus === 'idle' && (
+                    <>
+                        <h3 className="text-gradient" style={{ 
+                            fontSize: '1.8rem', 
+                            marginBottom: '10px', 
+                            fontFamily: 'var(--font-heading)'
+                        }}>Join the Fellowship</h3>
+                        <p style={{ color: 'var(--text-muted)', marginBottom: '30px', fontSize: '0.95rem', lineHeight: '1.5' }}>
+                            You are enrolling in the <strong style={{ color: 'var(--primary)' }}>{selectedTier.name}</strong>. Please fill out your details to proceed to secure checkout.
+                        </p>
 
-                <form onSubmit={initiatePayment} noValidate>
+                        <form onSubmit={initiatePayment} noValidate>
                     <div className="form-group">
-                        <label>Full Name</label>
+                        <label>Full Name <span style={{ color: '#ef4444' }}>*</span></label>
                         <input type="text" name="name" value={formData.name} onChange={handleInputChange} placeholder="e.g. John Doe" className={errors.name ? 'input-error' : ''} />
                         {errors.name && <div className="error-message"><i className="fa-solid fa-circle-exclamation"></i> {errors.name}</div>}
                     </div>
                     <div className="form-group">
-                        <label>Email Address</label>
+                        <label>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
                         <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="e.g. john@example.com" className={errors.email ? 'input-error' : ''} />
                         {errors.email && <div className="error-message"><i className="fa-solid fa-circle-exclamation"></i> {errors.email}</div>}
                     </div>
                     <div className="form-group">
-                        <label>Phone Number</label>
+                        <label>Phone Number <span style={{ color: '#ef4444' }}>*</span></label>
                         {(() => {
                             let maxLocalDigits = 10;
                             let placeholderText = "Phone number";
@@ -295,7 +328,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
                         {errors.phone && <div className="error-message"><i className="fa-solid fa-circle-exclamation"></i> {errors.phone}</div>}
                     </div>
                     <div className="form-group">
-                        <label>LinkedIn Profile URL</label>
+                        <label>LinkedIn Profile URL <span style={{ color: 'var(--text-muted)', fontSize: '0.85em', fontWeight: 'normal' }}>(Optional)</span></label>
                         <input type="url" name="linkedin" value={formData.linkedin} onChange={handleInputChange} placeholder="https://linkedin.com/in/johndoe" className={errors.linkedin ? 'input-error' : ''} />
                         {errors.linkedin && <div className="error-message"><i className="fa-solid fa-circle-exclamation"></i> {errors.linkedin}</div>}
                     </div>
@@ -345,6 +378,88 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
                         <span style={{ fontWeight: 700 }}>₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                     </button>
                 </form>
+                </>
+                )}
+
+                {paymentStatus === 'verifying' && (
+                    <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+                        <div style={{ color: 'var(--primary)', fontSize: '3rem', marginBottom: '20px' }}>
+                            <i className="fa-solid fa-spinner fa-spin"></i>
+                        </div>
+                        <h3 className="text-gradient" style={{ fontSize: '1.8rem', marginBottom: '15px', fontFamily: 'var(--font-heading)' }}>Verifying Payment...</h3>
+                        <p style={{ color: 'var(--text-main)', fontSize: '1.05rem', lineHeight: '1.5' }}>
+                            Please wait while we securely confirm your transaction and finalize your enrollment.
+                        </p>
+                    </div>
+                )}
+
+                {paymentStatus === 'success' && (
+                    <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                        <div style={{ color: 'var(--primary)', fontSize: '4.5rem', marginBottom: '20px' }}>
+                            <i className="fa-solid fa-circle-check"></i>
+                        </div>
+                        <h3 className="text-gradient" style={{ fontSize: '2rem', marginBottom: '15px', fontFamily: 'var(--font-heading)' }}>Payment Successful!</h3>
+                        <p style={{ color: 'var(--text-main)', fontSize: '1.1rem', marginBottom: '25px' }}>
+                            Welcome to the Fellowship, <strong>{formData.name}</strong>!
+                        </p>
+                        <div style={{ backgroundColor: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: '30px', textAlign: 'left' }}>
+                            <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span style={{ color: 'var(--text-muted)' }}>Payment ID</span>
+                                <span style={{ fontWeight: '600', fontFamily: 'monospace', fontSize: '1.05rem' }}>{paymentDetails?.paymentId}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span style={{ color: 'var(--text-muted)' }}>Order ID</span>
+                                <span style={{ fontWeight: '600', fontFamily: 'monospace', fontSize: '1.05rem' }}>{paymentDetails?.orderId}</span>
+                            </div>
+                        </div>
+                        <button onClick={onClose} className="btn btn-primary" style={{ width: '100%', padding: '16px', borderRadius: '12px', fontSize: '1.1rem', fontWeight: '600' }}>
+                            Close & Continue
+                        </button>
+                    </div>
+                )}
+
+                {paymentStatus === 'error' && (
+                    <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                        <div style={{ color: '#f59e0b', fontSize: '4.5rem', marginBottom: '20px' }}>
+                            <i className="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <h3 style={{ fontSize: '2rem', marginBottom: '15px', color: '#f59e0b', fontFamily: 'var(--font-heading)' }}>Action Required</h3>
+                        <p style={{ color: 'var(--text-main)', fontSize: '1.1rem', marginBottom: '25px', lineHeight: '1.5' }}>
+                            {paymentDetails?.message}
+                        </p>
+                        <div style={{ backgroundColor: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: '30px', textAlign: 'left' }}>
+                            <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span style={{ color: 'var(--text-muted)' }}>Payment ID</span>
+                                <span style={{ fontWeight: '600', fontFamily: 'monospace', fontSize: '1.05rem' }}>{paymentDetails?.paymentId}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span style={{ color: 'var(--text-muted)' }}>Order ID</span>
+                                <span style={{ fontWeight: '600', fontFamily: 'monospace', fontSize: '1.05rem' }}>{paymentDetails?.orderId}</span>
+                            </div>
+                        </div>
+                        <button onClick={onClose} className="btn btn-primary" style={{ width: '100%', padding: '16px', borderRadius: '12px', fontSize: '1.1rem', fontWeight: '600' }}>
+                            Close
+                        </button>
+                    </div>
+                )}
+
+                {paymentStatus === 'failed' && (
+                    <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                        <div style={{ color: '#ef4444', fontSize: '4.5rem', marginBottom: '20px' }}>
+                            <i className="fa-solid fa-circle-xmark"></i>
+                        </div>
+                        <h3 style={{ fontSize: '2rem', marginBottom: '15px', color: '#ef4444', fontFamily: 'var(--font-heading)' }}>Payment Failed</h3>
+                        <p style={{ color: 'var(--text-main)', fontSize: '1.1rem', marginBottom: '25px' }}>
+                            {paymentDetails?.errorDescription || "An error occurred during payment."}
+                        </p>
+                        <button onClick={() => setPaymentStatus('idle')} className="btn btn-primary" style={{ width: '100%', padding: '16px', borderRadius: '12px', fontSize: '1.1rem', fontWeight: '600', marginBottom: '12px' }}>
+                            Try Again
+                        </button>
+                        <button onClick={onClose} className="btn" style={{ width: '100%', padding: '16px', borderRadius: '12px', fontSize: '1.1rem', backgroundColor: '#f1f5f9', color: 'var(--text-main)', border: '1px solid var(--border-color)', fontWeight: '600' }}>
+                            Cancel
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
