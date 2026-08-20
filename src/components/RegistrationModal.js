@@ -316,9 +316,9 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier, selec
                         <div style={{ color: 'var(--primary)', fontSize: '3rem', marginBottom: '20px' }}>
                             <i className="fa-solid fa-spinner fa-spin"></i>
                         </div>
-                        <h3 className="text-gradient" style={{ fontSize: '1.8rem', marginBottom: '15px', fontFamily: 'var(--font-heading)' }}>Verifying Payment...</h3>
+                        <h3 className="text-gradient" style={{ fontSize: '1.8rem', marginBottom: '15px', fontFamily: 'var(--font-heading)' }}>Initializing Checkout...</h3>
                         <p style={{ color: 'var(--text-main)', fontSize: '1.05rem', lineHeight: '1.5' }}>
-                            Please wait while we securely confirm your transaction and finalize your enrollment.
+                            Please wait while we securely prepare your transaction.
                         </p>
                     </div>
                 )}
