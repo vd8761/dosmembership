@@ -58,7 +58,7 @@ export async function POST(req) {
         });
 
         const payment = await razorpay.payments.fetch(razorpay_payment_id);
-        
+
         if (payment.status !== 'captured' && payment.status !== 'authorized') {
             console.error('Payment not successfully captured. Status:', payment.status);
             return NextResponse.json({ error: 'Payment status is incomplete. Please contact support.' }, { status: 400, headers: corsHeaders });
@@ -76,7 +76,7 @@ export async function POST(req) {
             RETURNING id;
         `;
         const values = [name, email, phone, linkedin, tier, amount / 100, razorpay_payment_id, razorpay_order_id];
-        
+
         await pool.query(query, values);
 
         // 2. Send Email Notification
@@ -93,7 +93,7 @@ export async function POST(req) {
 
             // Email to Admin
             const adminMailOptions = {
-                from: `"Descience Memberships" <${process.env.FROM_EMAIL || process.env.SMTP_USER}>`,
+                from: `"Descience Open Source Club" <${process.env.FROM_EMAIL || process.env.SMTP_USER}>`,
                 to: process.env.ADMIN_EMAIL || process.env.SMTP_USER,
                 subject: `New Enrollment: ${tier}`,
                 text: `
@@ -114,9 +114,9 @@ Order ID: ${razorpay_order_id}
 
             // Email to Student
             const studentMailOptions = {
-                from: `"Descience Memberships" <${process.env.FROM_EMAIL || process.env.SMTP_USER}>`,
+                from: `"Descience Open Source Club" <${process.env.FROM_EMAIL || process.env.SMTP_USER}>`,
                 to: email,
-                subject: `Enrollment Successful - Descience OS Club`,
+                subject: `Enrollment Successful - Descience Open Source Club`,
                 html: `
 <!DOCTYPE html>
 <html lang="en">

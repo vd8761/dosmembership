@@ -37,16 +37,17 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier, selec
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
-            setPaymentStatus('idle');
-            setPaymentDetails(null);
+            if (!successData) {
+                setPaymentStatus('idle');
+                setPaymentDetails(null);
+            }
         } else {
             document.body.style.overflow = '';
         }
-
         return () => {
             document.body.style.overflow = '';
         };
-    }, [isOpen]);
+    }, [isOpen, successData]);
 
     if (!isOpen) return null;
 
@@ -403,5 +404,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier, selec
         </div>
     );
 }
+
+
 
 
