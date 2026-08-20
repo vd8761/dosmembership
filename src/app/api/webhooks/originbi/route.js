@@ -64,7 +64,7 @@ export async function POST(req) {
             return NextResponse.json({ error: 'Payment status is incomplete. Please contact support.' }, { status: 400, headers: corsHeaders });
         }
 
-        if (payment.amount !== amount) {
+        if (Number(payment.amount) !== Number(amount)) {
             console.error(`Amount mismatch. Expected: ${amount}, Got: ${payment.amount}`);
             return NextResponse.json({ error: 'Payment amount mismatch. Potential fraud detected.' }, { status: 400, headers: corsHeaders });
         }
