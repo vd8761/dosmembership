@@ -33,43 +33,43 @@ export default function Testimonials() {
         {
             quote: "I got placed in Clustrex Data Private Limited as a software engineer... Because the next week of the DOS CODEZAP'25, I got this internship and all the knowledge I gained from the DOS club was more useful than my four years of college.",
             image: "https://i.pravatar.cc/150?img=11",
-            name: "A V K Shaileshwaran",
+            image: '/testimonials/A_V_K_Shaileshwaran.png', name: "A V K Shaileshwaran",
             role: "CODEZAP'25"
         },
         {
             quote: "I've participated in an international hackathon in Malaysia, but DOS Club provided a truly 100% wholesome experience. It was the best hackathon I've ever participated in, even compared to international hackathons! This opportunity inspired me to realize we have a lot to do, and we should fly higher!",
             image: "https://i.pravatar.cc/150?img=47",
-            name: "Gunasree R",
+            image: '/testimonials/Gunasree_R.png', name: "Gunasree R",
             role: "CODEZAP'25"
         },
         {
             quote: "We came to the hackathon nervous, as our team was entirely new to each other. The feedback from our first pitch helped tremendously. We worked all night, and every sprint taught us something new. In just 36 hours, we became a great team!",
-            image: "https://i.pravatar.cc/150?img=12",
+            image: "/testimonials/Sarvesh_P.png",
             name: "Sarvesh P",
             role: "CODEZAP'26"
         },
         {
             quote: "Honestly, I'm still in shock! The best part wasn't even the win—it was seeing my family and friends celebrate like they had won. A huge thanks to Mohan Sir, Bharathi Raja Sir and the DOS Team for making this moment possible. This wouldn't have happened without your support!",
             image: "https://i.pravatar.cc/150?img=13",
-            name: "Nishanth M",
+            image: '/testimonials/Nishanth_M.png', name: "Nishanth M",
             role: "CODEZAP'26"
         },
         {
             quote: "Initially, I had doubts about working with new people, but the support and bonding made that fear disappear quickly. What touched me most was seeing my family and friends celebrate our achievement with so much pride. A big thanks to the organizers for this wonderful opportunity to learn, collaborate, and grow!",
             image: "https://i.pravatar.cc/150?img=16",
-            name: "Ramya K",
+            image: '/testimonials/Ramya_K.png', name: "Ramya K",
             role: "CODEZAP'26"
         },
         {
             quote: "Before the hackathon, I had no idea how my team would come together. But we connected so well, and it turned into an unforgettable experience. I still can't believe we won and qualified for the next stage! But the happiest part was seeing my parents so incredibly proud—their smiles made me even happier than winning itself.",
             image: "https://i.pravatar.cc/150?img=18",
-            name: "Maharaja K",
+            image: '/testimonials/Maharaja_K.png', name: "Maharaja K",
             role: "CODEZAP'26"
         },
         {
             quote: "I was nervous about working with a completely new team, but it ended up being an amazing experience. When the results were announced, my family was incredibly emotional and happy. Seeing their happiness made this achievement even more meaningful. This is an experience I'll always cherish.",
             image: "https://i.pravatar.cc/150?img=20",
-            name: "Anitha R",
+            image: '/testimonials/Anitha_R.png', name: "Anitha R",
             role: "CODEZAP'26"
         }
     ];
@@ -127,7 +127,7 @@ export default function Testimonials() {
 
                             <div style={{ display: 'flex', gap: '20px', alignItems: 'center', borderTop: '1px solid var(--border-color)', paddingTop: '20px', marginTop: 'auto' }}>
                                 <div style={{ width: '55px', height: '55px', borderRadius: '50%', backgroundColor: 'rgba(7, 169, 123, 0.1)', border: '2px solid var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.08)' }}>
-                                    <i className="fa-solid fa-user" style={{ fontSize: '1.5rem', color: 'var(--primary)' }}></i>
+                                    <img src={t.image} alt={t.name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
                                 </div>
                                 <div>
                                     <h4 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', fontWeight: '800' }}>{t.name}</h4>

@@ -17,17 +17,21 @@ const loadScript = (src) => {
     })
 }
 
-export default function RegistrationModal({ isOpen, onClose, selectedTier, selectedAmount }) {
+export default function RegistrationModal({ isOpen, onClose, selectedTier, selectedAmount, successData }) {
     const [turnstileToken, setTurnstileToken] = useState(null);
     const [formData, setFormData] = useState({ name: '', email: '', phone: '', linkedin: '' });
     const [errors, setErrors] = useState({});
     const [country, setCountry] = useState('IN');
     const [paymentStatus, setPaymentStatus] = useState('idle');
     useEffect(() => {
-        const handleSuccess = (e) => { setPaymentStatus('success'); if (e.detail) { setPaymentDetails(e.detail); setFormData(prev => ({...prev, name: e.detail.name || prev.name})); } };
-        window.addEventListener('paymentSuccessEvent', handleSuccess);
-        return () => window.removeEventListener('paymentSuccessEvent', handleSuccess);
-    }, []);
+        if (successData) {
+            setPaymentStatus('success');
+            setPaymentDetails(successData);
+            setFormData(prev => ({...prev, name: successData.name || prev.name}));
+        } else if (!isOpen) {
+            setPaymentStatus('idle'); // Reset when closed
+        }
+    }, [successData, isOpen]);
     const [paymentDetails, setPaymentDetails] = useState(null);
 
     useEffect(() => {
@@ -399,3 +403,5 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier, selec
         </div>
     );
 }
+
+

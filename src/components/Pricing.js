@@ -8,6 +8,7 @@ const GST_RATE = process.env.NEXT_PUBLIC_GST_RATE !== undefined ? Number(process
 
 export default function Pricing() {
     const [showModal, setShowModal] = useState(false);
+    const [successData, setSuccessData] = useState(null);
     const [selectedTier, setSelectedTier] = useState('');
     const [selectedAmount, setSelectedAmount] = useState(0);
     const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
@@ -20,7 +21,7 @@ export default function Pricing() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('payment') === 'success') {
                 setTimeout(() => {
-                    setShowModal(true); setTimeout(() => { const name = urlParams.get('name'); const paymentId = urlParams.get('paymentId'); const orderId = urlParams.get('orderId'); const event = new CustomEvent('paymentSuccessEvent', { detail: { name, paymentId, orderId } }); window.dispatchEvent(event); }, 100);
+                    const name = urlParams.get('name'); const paymentId = urlParams.get('paymentId'); const orderId = urlParams.get('orderId'); setSuccessData({ name, paymentId, orderId }); setShowModal(true);
                     // Clean up URL
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }, 500);
@@ -110,12 +111,8 @@ export default function Pricing() {
             </div>
 
             {/* Registration Modal */}
-            <RegistrationModal 
-                isOpen={showModal} 
-                onClose={() => setShowModal(false)} 
-                selectedTier={selectedTier} 
-                selectedAmount={selectedAmount} 
-            />
+            <RegistrationModal isOpen={showModal} onClose={() => setShowModal(false)} selectedTier={selectedTier} selectedAmount={selectedAmount} successData={successData} />
         </section>
     );
 }
+

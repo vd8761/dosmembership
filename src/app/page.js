@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import FAQ from '../components/FAQ';
+import TrustedBy from '../components/TrustedBy';
+import VideoTestimonial from '../components/VideoTestimonial';
 import Pricing from '../components/Pricing';
 import Stats from '../components/Stats';
 import TargetAudience from '../components/TargetAudience';
@@ -49,6 +51,9 @@ export default function Home() {
                 {/* Subtle Light Pattern Background */}
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.4, backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)', backgroundSize: '30px 30px', zIndex: 0 }}></div>
             </section>
+
+            {/* Trusted By Section */}
+            <TrustedBy />
 
             {/* Stats Section */}
             <Stats />
@@ -148,6 +153,9 @@ export default function Home() {
 
             {/* Testimonials */}
             <Testimonials />
+
+            {/* Video Testimonial */}
+            <VideoTestimonial />
 
             {/* Pricing Component */}
             <Pricing />
