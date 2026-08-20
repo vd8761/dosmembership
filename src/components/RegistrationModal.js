@@ -136,7 +136,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier, selec
 
     return (
         <div className="modal-overlay">
-            <div className="modal-content">
+            <div className="modal-content" style={{ overflowY: paymentStatus === 'success' ? 'hidden' : 'auto' }}>
                 <button className="modal-close" onClick={onClose}><i className="fa-solid fa-xmark"></i></button>
 
                 {paymentStatus === 'idle' && (
@@ -404,6 +404,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier, selec
         </div>
     );
 }
+
 
 
 
