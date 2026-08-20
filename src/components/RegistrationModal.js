@@ -24,7 +24,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier, selec
     const [country, setCountry] = useState('IN');
     const [paymentStatus, setPaymentStatus] = useState('idle');
     useEffect(() => {
-        const handleSuccess = () => setPaymentStatus('success');
+        const handleSuccess = (e) => { setPaymentStatus('success'); if (e.detail) { setPaymentDetails(e.detail); setFormData(prev => ({...prev, name: e.detail.name || prev.name})); } };
         window.addEventListener('paymentSuccessEvent', handleSuccess);
         return () => window.removeEventListener('paymentSuccessEvent', handleSuccess);
     }, []);

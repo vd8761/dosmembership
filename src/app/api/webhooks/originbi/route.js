@@ -1,4 +1,4 @@
-﻿import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
@@ -75,7 +75,7 @@ export async function POST(req) {
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
             RETURNING id;
         `;
-        const values = [name, email, phone, linkedin, tier, amount, razorpay_payment_id, razorpay_order_id];
+        const values = [name, email, phone, linkedin, tier, amount / 100, razorpay_payment_id, razorpay_order_id];
         
         await pool.query(query, values);
 
