@@ -334,15 +334,15 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier, selec
                 )}
 
                 {paymentStatus === 'success' && (
-                    <div style={{ textAlign: 'center', padding: '20px 0' }}>
-                        <div style={{ color: 'var(--primary)', fontSize: '4.5rem', marginBottom: '20px' }}>
+                    <div style={{ textAlign: 'center', padding: '5px 0' }}>
+                        <div style={{ color: 'var(--primary)', fontSize: '3.5rem', marginBottom: '10px' }}>
                             <i className="fa-solid fa-circle-check"></i>
                         </div>
-                        <h3 className="text-gradient" style={{ fontSize: '2rem', marginBottom: '15px', fontFamily: 'var(--font-heading)' }}>Payment Successful!</h3>
-                        <p style={{ color: 'var(--text-main)', fontSize: '1.1rem', marginBottom: '25px' }}>
+                        <h3 className="text-gradient" style={{ fontSize: '1.8rem', marginBottom: '10px', fontFamily: 'var(--font-heading)' }}>Payment Successful!</h3>
+                        <p style={{ color: 'var(--text-main)', fontSize: '1rem', marginBottom: '15px' }}>
                             Welcome to the Fellowship, <strong>{formData.name}</strong>!
                         </p>
-                        <div style={{ backgroundColor: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: '30px', textAlign: 'left' }}>
+                        <div style={{ backgroundColor: '#f8fafc', padding: '15px', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: '20px', textAlign: 'left' }}>
                             <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <span style={{ color: 'var(--text-muted)' }}>Payment ID</span>
                                 <span style={{ fontWeight: '600', fontFamily: 'monospace', fontSize: '1.05rem' }}>{paymentDetails?.paymentId}</span>
@@ -359,15 +359,15 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier, selec
                 )}
 
                 {paymentStatus === 'error' && (
-                    <div style={{ textAlign: 'center', padding: '20px 0' }}>
-                        <div style={{ color: '#f59e0b', fontSize: '4.5rem', marginBottom: '20px' }}>
+                    <div style={{ textAlign: 'center', padding: '5px 0' }}>
+                        <div style={{ color: '#f59e0b', fontSize: '3.5rem', marginBottom: '10px' }}>
                             <i className="fa-solid fa-triangle-exclamation"></i>
                         </div>
-                        <h3 style={{ fontSize: '2rem', marginBottom: '15px', color: '#f59e0b', fontFamily: 'var(--font-heading)' }}>Action Required</h3>
-                        <p style={{ color: 'var(--text-main)', fontSize: '1.1rem', marginBottom: '25px', lineHeight: '1.5' }}>
+                        <h3 style={{ fontSize: '1.8rem', marginBottom: '10px', color: '#f59e0b', fontFamily: 'var(--font-heading)' }}>Action Required</h3>
+                        <p style={{ color: 'var(--text-main)', fontSize: '1rem', marginBottom: '15px', lineHeight: '1.5' }}>
                             {paymentDetails?.message}
                         </p>
-                        <div style={{ backgroundColor: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: '30px', textAlign: 'left' }}>
+                        <div style={{ backgroundColor: '#f8fafc', padding: '15px', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: '20px', textAlign: 'left' }}>
                             <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <span style={{ color: 'var(--text-muted)' }}>Payment ID</span>
                                 <span style={{ fontWeight: '600', fontFamily: 'monospace', fontSize: '1.05rem' }}>{paymentDetails?.paymentId}</span>
@@ -384,12 +384,12 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier, selec
                 )}
 
                 {paymentStatus === 'failed' && (
-                    <div style={{ textAlign: 'center', padding: '20px 0' }}>
-                        <div style={{ color: '#ef4444', fontSize: '4.5rem', marginBottom: '20px' }}>
+                    <div style={{ textAlign: 'center', padding: '5px 0' }}>
+                        <div style={{ color: '#ef4444', fontSize: '3.5rem', marginBottom: '10px' }}>
                             <i className="fa-solid fa-circle-xmark"></i>
                         </div>
-                        <h3 style={{ fontSize: '2rem', marginBottom: '15px', color: '#ef4444', fontFamily: 'var(--font-heading)' }}>Payment Failed</h3>
-                        <p style={{ color: 'var(--text-main)', fontSize: '1.1rem', marginBottom: '25px' }}>
+                        <h3 style={{ fontSize: '1.8rem', marginBottom: '10px', color: '#ef4444', fontFamily: 'var(--font-heading)' }}>Payment Failed</h3>
+                        <p style={{ color: 'var(--text-main)', fontSize: '1rem', marginBottom: '15px' }}>
                             {paymentDetails?.errorDescription || "An error occurred during payment."}
                         </p>
                         <button onClick={() => setPaymentStatus('idle')} className="btn btn-primary" style={{ width: '100%', padding: '16px', borderRadius: '12px', fontSize: '1.1rem', fontWeight: '600', marginBottom: '12px' }}>
@@ -404,6 +404,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier, selec
         </div>
     );
 }
+
 
 
 
