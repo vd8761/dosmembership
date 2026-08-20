@@ -18,7 +18,7 @@ const corsHeaders = {
 };
 
 export async function OPTIONS() {
-    return NextResponse.json({}, { headers: corsHeaders }, { headers: corsHeaders });
+    return NextResponse.json({}, { headers: corsHeaders });
 }
 
 export async function POST(req) {
@@ -37,7 +37,7 @@ export async function POST(req) {
         } = body;
 
         if (!name || !email || !razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
-            return NextResponse.json({ error: 'Missing required fields or payment verification data.' }, { status: 400 }, { headers: corsHeaders });
+            return NextResponse.json({ error: 'Missing required fields or payment verification data.' }, { status: 400, headers: corsHeaders });
         }
 
         // 1. Verify Razorpay Signature (Mathematical Proof)
@@ -48,7 +48,7 @@ export async function POST(req) {
 
         if (expectedSignature !== razorpay_signature) {
             console.error('Invalid Razorpay signature mismatch.');
-            return NextResponse.json({ error: 'Payment verification failed. Invalid signature.' }, { status: 400 }, { headers: corsHeaders });
+            return NextResponse.json({ error: 'Payment verification failed. Invalid signature.' }, { status: 400, headers: corsHeaders });
         }
 
         // 2. Double Confirm Status & Amount via Razorpay API
@@ -61,20 +61,20 @@ export async function POST(req) {
         
         if (payment.status !== 'captured' && payment.status !== 'authorized') {
             console.error('Payment not successfully captured. Status:', payment.status);
-            return NextResponse.json({ error: 'Payment status is incomplete. Please contact support.' }, { status: 400 }, { headers: corsHeaders });
+            return NextResponse.json({ error: 'Payment status is incomplete. Please contact support.' }, { status: 400, headers: corsHeaders });
         }
 
         if (payment.amount !== amount) {
-            console.error(`Amount mismatch. Expected: ${amount}, Got: ${payment.amount}`);
-            return NextResponse.json({ error: 'Payment amount mismatch. Potential fraud detected.' }, { status: 400 }, { headers: corsHeaders });
+            console.error(Amount mismatch. Expected: , Got: );
+            return NextResponse.json({ error: 'Payment amount mismatch. Potential fraud detected.' }, { status: 400, headers: corsHeaders });
         }
 
         // 3. Save to Database
-        const query = `
+        const query = 
             INSERT INTO enrollments (name, email, phone, linkedin, tier, amount, razorpay_payment_id, razorpay_order_id)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
             RETURNING id;
-        `;
+        ;
         const values = [name, email, phone, linkedin, tier, amount, razorpay_payment_id, razorpay_order_id];
         
         await pool.query(query, values);
@@ -84,7 +84,7 @@ export async function POST(req) {
             const transporter = nodemailer.createTransport({
                 host: process.env.SMTP_HOST || 'mail.sender.net',
                 port: process.env.SMTP_PORT || 465,
-                secure: process.env.SMTP_PORT == 465, // true for 465, false for other ports (587)
+                secure: process.env.SMTP_PORT == 465,
                 auth: {
                     user: process.env.SMTP_USER,
                     pass: process.env.SMTP_PASS,
@@ -93,10 +93,10 @@ export async function POST(req) {
 
             // Email to Admin
             const adminMailOptions = {
-                from: `"Descience Memberships" <${process.env.FROM_EMAIL || process.env.SMTP_USER}>`,
+                from: "Descience Memberships" <${process.env.FROM_EMAIL || process.env.SMTP_USER}>,
                 to: process.env.ADMIN_EMAIL || process.env.SMTP_USER,
-                subject: `New Enrollment: ${tier}`,
-                text: `
+                subject: New Enrollment: ${tier},
+                text: 
 A new enrollment was just completed!
 
 Details:
@@ -106,18 +106,18 @@ Phone: ${phone}
 LinkedIn: ${linkedin}
 
 Plan: ${tier}
-Amount: ₹${amount / 100}
+Amount: ?${amount / 100}
 Payment ID: ${razorpay_payment_id}
 Order ID: ${razorpay_order_id}
-                `,
+                ,
             };
 
             // Email to Student
             const studentMailOptions = {
-                from: `"Descience Memberships" <${process.env.FROM_EMAIL || process.env.SMTP_USER}>`,
+                from: "Descience Memberships" <${process.env.FROM_EMAIL || process.env.SMTP_USER}>,
                 to: email,
-                subject: `Enrollment Successful - Descience OS Club`,
-                html: `
+                subject: Enrollment Successful - Descience OS Club,
+                html: 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -175,7 +175,7 @@ Order ID: ${razorpay_order_id}
                                                 <tr>
                                                     <td style="padding-top: 6px;">
                                                         <span style="color: #6B7280; font-size: 12px;">Amount Paid</span><br>
-                                                        <strong style="font-size: 18px; color: #07a97b; font-weight: 800;">₹${amount / 100}</strong>
+                                                        <strong style="font-size: 18px; color: #07a97b; font-weight: 800;">?${amount / 100}</strong>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -205,7 +205,7 @@ Order ID: ${razorpay_order_id}
     </table>
 </body>
 </html>
-                `,
+                ,
             };
 
             await transporter.sendMail(adminMailOptions);
@@ -217,6 +217,6 @@ Order ID: ${razorpay_order_id}
         return NextResponse.json({ success: true, message: 'Enrollment saved successfully' }, { headers: corsHeaders });
     } catch (error) {
         console.error('Error saving enrollment:', error);
-        return NextResponse.json({ error: 'Error processing enrollment' }, { status: 500 }, { headers: corsHeaders });
+        return NextResponse.json({ error: 'Error processing enrollment' }, { status: 500, headers: corsHeaders });
     }
 }
