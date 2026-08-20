@@ -20,7 +20,7 @@ export default function Pricing() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('payment') === 'success') {
                 setTimeout(() => {
-                    setShowModal(true); setTimeout(() => { const event = new CustomEvent("paymentSuccessEvent"); window.dispatchEvent(event); }, 100);
+                    setShowModal(true); setTimeout(() => { const name = urlParams.get('name'); const paymentId = urlParams.get('paymentId'); const orderId = urlParams.get('orderId'); const event = new CustomEvent('paymentSuccessEvent', { detail: { name, paymentId, orderId } }); window.dispatchEvent(event); }, 100);
                     // Clean up URL
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }, 500);
