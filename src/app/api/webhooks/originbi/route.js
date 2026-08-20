@@ -66,7 +66,7 @@ export async function POST(req) {
 
         if (Number(payment.amount) !== Number(amount)) {
             console.error(`Amount mismatch. Expected: ${amount}, Got: ${payment.amount}`);
-            return NextResponse.json({ error: 'Payment amount mismatch. Potential fraud detected.' }, { status: 400, headers: corsHeaders });
+            return NextResponse.json({ error: `Payment amount mismatch. Expected: ${amount}, Got: ${payment.amount}` }, { status: 400, headers: corsHeaders });
         }
 
         // 3. Save to Database
