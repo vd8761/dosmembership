@@ -25,7 +25,7 @@ export default function TrustedBy() {
                     fontWeight: '600',
                     fontFamily: 'var(--font-heading)'
                 }}>
-                    Trusted By Leading Colleges & Institutes
+                    Academic Partners
                 </h3>
                 
                 <div style={{
@@ -60,3 +60,4 @@ export default function TrustedBy() {
         </section>
     );
 }
+

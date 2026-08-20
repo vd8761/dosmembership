@@ -914,3 +914,89 @@ input.input-error:focus,
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* Marquee Animations */
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-200px * 10 - 20px * 10)); } /* Width of 10 items + gaps */
+}
+
+@keyframes scrollRight {
+  0% { transform: translateX(calc(-200px * 10 - 20px * 10)); }
+  100% { transform: translateX(0); }
+}
+
+.marquee-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  display: flex;
+  background-color: #0b0f19;
+  padding: 40px 0;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.marquee-row {
+  display: flex;
+  width: calc((200px + 20px) * 20); /* Double the items for infinite scroll */
+  gap: 20px;
+}
+
+.marquee-row.left {
+  animation: scrollLeft 40s linear infinite;
+}
+
+.marquee-row.right {
+  animation: scrollRight 40s linear infinite;
+}
+
+.marquee-item {
+  width: 220px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 10px;
+}
+
+.marquee-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(100%) invert(100%) brightness(200%);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.marquee-item:hover img {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Gradient fades on sides */
+.marquee-container::before,
+.marquee-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marquee-container::before {
+  left: 0;
+  background: linear-gradient(to right, #0b0f19, transparent);
+}
+
+.marquee-container::after {
+  right: 0;
+  background: linear-gradient(to left, #0b0f19, transparent);
+}
+
+
+
