@@ -2,9 +2,9 @@
 import { useState } from 'react';
 import RegistrationModal from './RegistrationModal';
 
-const STANDARD_PRICE = 1;
-const PREMIUM_PRICE = 1;
-const GST_RATE = 0;
+const STANDARD_PRICE = process.env.NEXT_PUBLIC_STANDARD_PRICE !== undefined ? Number(process.env.NEXT_PUBLIC_STANDARD_PRICE) : 32000;
+const PREMIUM_PRICE = process.env.NEXT_PUBLIC_PREMIUM_PRICE !== undefined ? Number(process.env.NEXT_PUBLIC_PREMIUM_PRICE) : 65000;
+const GST_RATE = process.env.NEXT_PUBLIC_GST_RATE !== undefined ? Number(process.env.NEXT_PUBLIC_GST_RATE) : 0.18;
 
 export default function Pricing() {
     const [isModalOpen, setIsModalOpen] = useState(false);
