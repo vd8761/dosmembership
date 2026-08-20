@@ -11,6 +11,16 @@ const pool = new Pool({
     }
 });
 
+const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+};
+
+export async function OPTIONS() {
+    return NextResponse.json({}, { headers: corsHeaders }, { headers: corsHeaders });
+}
+
 export async function POST(req) {
     try {
         const body = await req.json();
@@ -27,7 +37,7 @@ export async function POST(req) {
         } = body;
 
         if (!name || !email || !razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
-            return NextResponse.json({ error: 'Missing required fields or payment verification data.' }, { status: 400 });
+            return NextResponse.json({ error: 'Missing required fields or payment verification data.' }, { status: 400 }, { headers: corsHeaders });
         }
 
         // 1. Verify Razorpay Signature (Mathematical Proof)
@@ -38,7 +48,7 @@ export async function POST(req) {
 
         if (expectedSignature !== razorpay_signature) {
             console.error('Invalid Razorpay signature mismatch.');
-            return NextResponse.json({ error: 'Payment verification failed. Invalid signature.' }, { status: 400 });
+            return NextResponse.json({ error: 'Payment verification failed. Invalid signature.' }, { status: 400 }, { headers: corsHeaders });
         }
 
         // 2. Double Confirm Status & Amount via Razorpay API
@@ -51,12 +61,12 @@ export async function POST(req) {
         
         if (payment.status !== 'captured' && payment.status !== 'authorized') {
             console.error('Payment not successfully captured. Status:', payment.status);
-            return NextResponse.json({ error: 'Payment status is incomplete. Please contact support.' }, { status: 400 });
+            return NextResponse.json({ error: 'Payment status is incomplete. Please contact support.' }, { status: 400 }, { headers: corsHeaders });
         }
 
         if (payment.amount !== amount) {
             console.error(`Amount mismatch. Expected: ${amount}, Got: ${payment.amount}`);
-            return NextResponse.json({ error: 'Payment amount mismatch. Potential fraud detected.' }, { status: 400 });
+            return NextResponse.json({ error: 'Payment amount mismatch. Potential fraud detected.' }, { status: 400 }, { headers: corsHeaders });
         }
 
         // 3. Save to Database
@@ -204,9 +214,9 @@ Order ID: ${razorpay_order_id}
             console.warn("SMTP credentials not configured. Email notification skipped.");
         }
 
-        return NextResponse.json({ success: true, message: 'Enrollment saved successfully' });
+        return NextResponse.json({ success: true, message: 'Enrollment saved successfully' }, { headers: corsHeaders });
     } catch (error) {
         console.error('Error saving enrollment:', error);
-        return NextResponse.json({ error: 'Error processing enrollment' }, { status: 500 });
+        return NextResponse.json({ error: 'Error processing enrollment' }, { status: 500 }, { headers: corsHeaders });
     }
 }

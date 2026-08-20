@@ -20,7 +20,7 @@ export default function Pricing() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('payment') === 'success') {
                 setTimeout(() => {
-                    alert("Payment Successful! Welcome to the DOS Fellowship.");
+                    setShowModal(true); setTimeout(() => { const event = new CustomEvent("paymentSuccessEvent"); window.dispatchEvent(event); }, 100);
                     // Clean up URL
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }, 500);
