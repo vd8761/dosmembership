@@ -7,7 +7,7 @@ export async function POST(req) {
         const { amount } = body;
 
         if (!amount) {
-            return NextResponse.json({ error: 'Amount is required' }, { status: 400 });
+            return NextResponse.json({ error: "Amount is required" }, { status: 400 });
         }
 
         const razorpay = new Razorpay({
@@ -16,17 +16,20 @@ export async function POST(req) {
         });
 
         const options = {
-            amount: amount, // amount in paise
-            currency: 'INR',
-            receipt: 'receipt_' + Math.random().toString(36).substring(2, 15),
+            amount: amount, // amount is already in paise
+            currency: "INR",
+            receipt: `rcpt_${Date.now()}`,
         };
 
         const order = await razorpay.orders.create(options);
 
-        return NextResponse.json(order);
+        return NextResponse.json({
+            id: order.id,
+            amount: order.amount,
+            currency: order.currency
+        });
     } catch (error) {
-        console.error('Error creating Razorpay order:', error);
-        const errorMsg = error?.error?.description || error.message || 'Unknown error';
-        return NextResponse.json({ error: `Error creating order: ${errorMsg}` }, { status: 500 });
+        console.error("Razorpay Order Creation Error:", error);
+        return NextResponse.json({ error: "Failed to create order" }, { status: 500 });
     }
 }

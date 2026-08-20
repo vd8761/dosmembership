@@ -17,7 +17,7 @@ const loadScript = (src) => {
     })
 }
 
-export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
+export default function RegistrationModal({ isOpen, onClose, selectedTier, selectedAmount }) {
     const [turnstileToken, setTurnstileToken] = useState(null);
     const [formData, setFormData] = useState({ name: '', email: '', phone: '', linkedin: '' });
     const [errors, setErrors] = useState({});
@@ -41,7 +41,8 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
 
     if (!isOpen) return null;
 
-    const baseAmount = selectedTier.amount;
+    // Use selectedAmount passed from props if available, otherwise fallback
+    const baseAmount = selectedAmount || (selectedTier === 'Premium' || selectedTier === 'Premium Tier' ? 14999 : 7999);
     const gstRate = 0.18;
     const totalAmount = baseAmount + (baseAmount * gstRate);
     const amountInPaise = Math.round(totalAmount * 100);
@@ -84,113 +85,42 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
             return;
         }
 
-        // Dynamically load Razorpay script
-        const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
-        
-        if (!res) {
-          alert("Razorpay SDK failed to load. Are you online?");
-          return;
-        }
-
         try {
-            // Create order on the backend
-            const orderResponse = await fetch('/api/create-order', {
+            setPaymentStatus('verifying');
+            // Call backend to generate JWT token for cross-domain checkout
+            const initiateResponse = await fetch('/api/checkout/initiate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount: amountInPaise })
+                body: JSON.stringify({ 
+                    name: formData.name, 
+                    email: formData.email, 
+                    phone: formData.phone, linkedin: formData.linkedin,
+                    tier: selectedTier
+                })
             });
 
-            const orderData = await orderResponse.json();
+            const initiateData = await initiateResponse.json();
 
-            if (!orderResponse.ok) {
-                console.error("Order creation failed:", orderData);
-                alert("Failed to initialize payment: " + (orderData.error || "Unknown error"));
+            if (!initiateResponse.ok || !initiateData.token) {
+                console.error("Token generation failed:", initiateData);
+                setPaymentStatus('error');
+                setPaymentDetails({ message: initiateData.error || "Failed to initialize secure checkout." });
                 return;
             }
 
-            var options = {
-                "key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, 
-                "amount": amountInPaise, 
-                "currency": "INR",
-                "name": "Descience Open Source Club",
-                "description": "Payment for " + selectedTier.name + " - AI Masterclass",
-                "image": "https://osf.descienceosclub.com/favicon.png",
-                "order_id": orderData.id,
-                "handler": async function (response){
-                    try {
-                        setPaymentStatus('verifying');
-                        const saveResponse = await fetch('/api/save-enrollment', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                name: formData.name,
-                                email: formData.email,
-                                phone: formData.phone,
-                                linkedin: formData.linkedin,
-                                tier: selectedTier.name,
-                                amount: amountInPaise,
-                                razorpay_payment_id: response.razorpay_payment_id,
-                                razorpay_order_id: response.razorpay_order_id,
-                                razorpay_signature: response.razorpay_signature
-                            })
-                        });
-                        
-                        if (!saveResponse.ok) {
-                            const errorText = await saveResponse.text();
-                            console.error("Failed to save enrollment:", errorText);
-                            let errorMessage = "Payment Successful, but there was an issue saving your enrollment details.";
-                            try {
-                                const errObj = JSON.parse(errorText);
-                                if (errObj.error) errorMessage = errObj.error;
-                            } catch (e) {}
-                            
-                            setPaymentStatus('error');
-                            setPaymentDetails({
-                                message: errorMessage,
-                                paymentId: response.razorpay_payment_id,
-                                orderId: response.razorpay_order_id
-                            });
-                        } else {
-                            setPaymentStatus('success');
-                            setPaymentDetails({
-                                paymentId: response.razorpay_payment_id,
-                                orderId: response.razorpay_order_id
-                            });
-                        }
-                    } catch (err) {
-                        console.error("Error saving enrollment:", err);
-                        setPaymentStatus('error');
-                        setPaymentDetails({
-                            message: "Payment Successful, but failed to save details to database. Please contact support.",
-                            paymentId: response.razorpay_payment_id,
-                            orderId: response.razorpay_order_id
-                        });
-                    }
-                },
-                "prefill": {
-                    "name": formData.name,
-                    "email": formData.email,
-                    "contact": formData.phone
-                },
-                "theme": {
-                    "color": "#07a97b"
-                }
-            };
+            // Redirect to originbi.com for Razorpay domain verification
+            const isLocal = window.location.hostname === 'localhost';
+            // Assuming originbi is running on port 5000 locally
+            const checkoutUrl = isLocal 
+                ? `http://localhost:5000/dosmembership/checkout?token=${initiateData.token}`
+                : `https://originbi.com/dosmembership/checkout?token=${initiateData.token}`;
             
-            var rzp1 = new window.Razorpay(options);
-            
-            rzp1.on('payment.failed', function (response){
-                console.error(response.error);
-                setPaymentStatus('failed');
-                setPaymentDetails({
-                    errorDescription: response.error.description
-                });
-            });
-            
-            rzp1.open();
+            window.location.href = checkoutUrl;
+
         } catch (error) {
-            console.error("Error during payment initialization:", error);
-            alert("Error connecting to payment gateway.");
+            console.error("Error during checkout initialization:", error);
+            setPaymentStatus('error');
+            setPaymentDetails({ message: "Error connecting to checkout service." });
         }
     };
 
@@ -207,7 +137,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
                             fontFamily: 'var(--font-heading)'
                         }}>Join the Fellowship</h3>
                         <p style={{ color: 'var(--text-muted)', marginBottom: '30px', fontSize: '0.95rem', lineHeight: '1.5' }}>
-                            You are enrolling in the <strong style={{ color: 'var(--primary)' }}>{selectedTier.name}</strong>. Please fill out your details to proceed to secure checkout.
+                            You are enrolling in the <strong style={{ color: 'var(--primary)' }}>{selectedTier}</strong>. Please fill out your details to proceed to secure checkout.
                         </p>
 
                         <form onSubmit={initiatePayment} noValidate>
@@ -341,7 +271,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
                         border: '1px solid var(--border-color)' 
                     }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                            <span>Base Plan (<strong style={{ color: 'var(--primary)', fontWeight: '600' }}>{selectedTier.name}</strong>)</span>
+                            <span>Base Plan (<strong style={{ color: 'var(--primary)', fontWeight: '600' }}>{selectedTier}</strong>)</span>
                             <span>₹{baseAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '14px', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
@@ -357,7 +287,7 @@ export default function RegistrationModal({ isOpen, onClose, selectedTier }) {
                     
                     <div className="form-group" style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px' }}>
                         <Turnstile 
-                            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
                             onSuccess={(token) => setTurnstileToken(token)}
                             onError={() => alert('Verification failed. Please try again.')}
                             options={{ theme: 'light' }}

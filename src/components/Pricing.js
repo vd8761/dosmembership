@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RegistrationModal from './RegistrationModal';
 
 const STANDARD_PRICE = process.env.NEXT_PUBLIC_STANDARD_PRICE !== undefined ? Number(process.env.NEXT_PUBLIC_STANDARD_PRICE) : 32000;
@@ -7,12 +7,59 @@ const PREMIUM_PRICE = process.env.NEXT_PUBLIC_PREMIUM_PRICE !== undefined ? Numb
 const GST_RATE = process.env.NEXT_PUBLIC_GST_RATE !== undefined ? Number(process.env.NEXT_PUBLIC_GST_RATE) : 0.18;
 
 export default function Pricing() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedTier, setSelectedTier] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedTier, setSelectedTier] = useState('');
+    const [selectedAmount, setSelectedAmount] = useState(0);
+    const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+    const [loading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
+
+    useEffect(() => {
+        // Check if we just returned from a successful payment
+        if (typeof window !== 'undefined') {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('payment') === 'success') {
+                setTimeout(() => {
+                    alert("Payment Successful! Welcome to the DOS Fellowship.");
+                    // Clean up URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 500);
+            }
+        }
+    }, []);
 
     const handleEnrollClick = (amount, name) => {
-        setSelectedTier({ amount, name });
-        setIsModalOpen(true);
+        setSelectedAmount(amount);
+        setSelectedTier(name);
+        setShowModal(true);
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setErrorMsg('');
+
+        try {
+            const res = await fetch('/api/checkout/initiate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...formData, tier: selectedTier })
+            });
+
+            const data = await res.json();
+            
+            if (res.ok && data.token) {
+                // Redirect to originbi checkout with the secure token
+                window.location.href = `https://originbi.com/dosmembership/checkout?token=${data.token}`;
+            } else {
+                setErrorMsg(data.error || 'Failed to initiate checkout. Please try again.');
+                setLoading(false);
+            }
+        } catch (err) {
+            console.error("Checkout error:", err);
+            setErrorMsg('An error occurred. Please try again.');
+            setLoading(false);
+        }
     };
 
     return (
@@ -59,15 +106,15 @@ export default function Pricing() {
 
                         <button className="btn btn-primary" onClick={() => handleEnrollClick(PREMIUM_PRICE, 'Premium Tier')}>Enroll Premium</button>
                     </div>
-
                 </div>
             </div>
 
-            {/* Render Modal */}
-            <RegistrationModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                selectedTier={selectedTier}
+            {/* Registration Modal */}
+            <RegistrationModal 
+                isOpen={showModal} 
+                onClose={() => setShowModal(false)} 
+                selectedTier={selectedTier} 
+                selectedAmount={selectedAmount} 
             />
         </section>
     );
