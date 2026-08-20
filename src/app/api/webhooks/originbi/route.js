@@ -65,16 +65,16 @@ export async function POST(req) {
         }
 
         if (payment.amount !== amount) {
-            console.error(Amount mismatch. Expected: , Got: );
+            console.error(`Amount mismatch. Expected: ${amount}, Got: ${payment.amount}`);
             return NextResponse.json({ error: 'Payment amount mismatch. Potential fraud detected.' }, { status: 400, headers: corsHeaders });
         }
 
         // 3. Save to Database
-        const query = 
+        const query = `
             INSERT INTO enrollments (name, email, phone, linkedin, tier, amount, razorpay_payment_id, razorpay_order_id)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
             RETURNING id;
-        ;
+        `;
         const values = [name, email, phone, linkedin, tier, amount, razorpay_payment_id, razorpay_order_id];
         
         await pool.query(query, values);
@@ -93,10 +93,10 @@ export async function POST(req) {
 
             // Email to Admin
             const adminMailOptions = {
-                from: "Descience Memberships" <${process.env.FROM_EMAIL || process.env.SMTP_USER}>,
+                from: `"Descience Memberships" <${process.env.FROM_EMAIL || process.env.SMTP_USER}>`,
                 to: process.env.ADMIN_EMAIL || process.env.SMTP_USER,
-                subject: New Enrollment: ${tier},
-                text: 
+                subject: `New Enrollment: ${tier}`,
+                text: `
 A new enrollment was just completed!
 
 Details:
@@ -109,15 +109,15 @@ Plan: ${tier}
 Amount: ?${amount / 100}
 Payment ID: ${razorpay_payment_id}
 Order ID: ${razorpay_order_id}
-                ,
+                `,
             };
 
             // Email to Student
             const studentMailOptions = {
-                from: "Descience Memberships" <${process.env.FROM_EMAIL || process.env.SMTP_USER}>,
+                from: `"Descience Memberships" <${process.env.FROM_EMAIL || process.env.SMTP_USER}>`,
                 to: email,
-                subject: Enrollment Successful - Descience OS Club,
-                html: 
+                subject: `Enrollment Successful - Descience OS Club`,
+                html: `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -205,7 +205,7 @@ Order ID: ${razorpay_order_id}
     </table>
 </body>
 </html>
-                ,
+                `,
             };
 
             await transporter.sendMail(adminMailOptions);
