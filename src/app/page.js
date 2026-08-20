@@ -155,7 +155,7 @@ export default function Home() {
             <Testimonials />
 
             {/* Video Testimonial */}
-            <VideoTestimonial />
+            {/* <VideoTestimonial /> */}
 
             {/* Pricing Component */}
             <Pricing />
@@ -170,3 +170,4 @@ export default function Home() {
         </>
     );
 }
+
