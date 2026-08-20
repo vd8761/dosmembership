@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
@@ -106,7 +106,7 @@ Phone: ${phone}
 LinkedIn: ${linkedin}
 
 Plan: ${tier}
-Amount: ?${amount / 100}
+Amount: Rs. ${amount / 100}
 Payment ID: ${razorpay_payment_id}
 Order ID: ${razorpay_order_id}
                 `,
@@ -142,7 +142,7 @@ Order ID: ${razorpay_order_id}
                     </tr>
                     <tr>
                         <td align="center" style="padding: 20px 20px 15px 20px;">
-                            <img src="https://descienceosclub.com/dos_logo.png" alt="Descience OS Club" width="160" style="display: block; max-width: 100%; height: auto; margin-bottom: 15px;">
+                            <img src="https://membership.descienceosclub.com/dos_logo.png" alt="Descience OS Club" width="160" style="display: block; max-width: 100%; height: auto; margin-bottom: 15px;">
                             <h1 style="color: #111827; margin: 0; font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">Welcome to the Fellowship!</h1>
                         </td>
                     </tr>
@@ -175,7 +175,7 @@ Order ID: ${razorpay_order_id}
                                                 <tr>
                                                     <td style="padding-top: 6px;">
                                                         <span style="color: #6B7280; font-size: 12px;">Amount Paid</span><br>
-                                                        <strong style="font-size: 18px; color: #07a97b; font-weight: 800;">?${amount / 100}</strong>
+                                                        <strong style="font-size: 18px; color: #07a97b; font-weight: 800;">Rs. ${amount / 100}</strong>
                                                     </td>
                                                 </tr>
                                             </table>
